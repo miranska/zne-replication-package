@@ -16,7 +16,7 @@ This project uses `pyproject.toml` for dependency management.
    ```
 2. (Optional) Install test dependencies:
    ```shell
-   pip install -e .[test]
+   pip install -e ".[test]"
    ```
 
 ## Repository Structure
