@@ -1,4 +1,4 @@
-# Lock Prediction for Zero-Downtime Database Encryption
+# Improving Zero-Noise Extrapolation via Physically Bounded Models
 
 This repository contains supplementary material for the paper 
 "Improving Zero-Noise Extrapolation via Physically Bounded Models".
