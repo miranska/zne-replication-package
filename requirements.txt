@@ -1,4 +1,0 @@
-pandas
-pyarrow
-mitiq==0.48.1
-scipy==1.16.2
