@@ -8,12 +8,76 @@ import pandas as pd
 from scipy.optimize import minimize
 
 
+def bounded_polynomial_extrapolation(
+    x: pd.Series | np.ndarray | list,
+    y: pd.Series | np.ndarray | list,
+    order: int = 1,
+) -> float:
+    """Polynomial extrapolation with bounded physically valid zero-noise prediction.
+
+    Model:
+        y(x) = theta_0 + theta_1 * x + ... + theta_d * x^d
+
+    The zero-noise limit is y(0) = theta_0 (the intercept). The fit is constrained
+    so that theta_0 lies in [-1, 1], ensuring the extrapolated value is valid for
+    ±1-valued observables.
+
+    :param x: Series containing the scale factors.
+    :param y: Series containing the expectation values.
+    :param order: Order of the polynomial.
+    :return: Zero-noise limit y(0).
+    :raises ValueError: If inputs are invalid or too few points.
+    :raises RuntimeError: If constrained optimization fails.
+    """
+    x = np.asarray(x, dtype=float)
+    y_vals = np.asarray(y, dtype=float)
+
+    if x.size != y_vals.size:
+        raise ValueError("x and y must have the same number of rows.")
+    if x.size < 2:
+        raise ValueError("At least two data points are required.")
+    if not np.all(np.isfinite(x)) or not np.all(np.isfinite(y_vals)):
+        raise ValueError("scale_factor and expectation values must be finite.")
+    if order < 0:
+        raise ValueError("order must be non-negative.")
+    if x.size <= order:
+        raise ValueError(
+            f"Need more than order={order} points for a unique fit, got {x.size}."
+        )
+
+    # Design matrix: columns 1, x, x^2, ..., x^d
+    A = np.column_stack([x**k for k in range(order + 1)])
+
+    def objective(theta: np.ndarray) -> float:
+        pred = A @ theta
+        return float(np.sum((y_vals - pred) ** 2))
+
+    # Initial guess from unconstrained OLS
+    theta_init, _, _, _ = np.linalg.lstsq(A, y_vals, rcond=None)
+
+    # Bounds: intercept theta_0 in [-1, 1], higher coefficients unbounded
+    bounds = [(-1.0, 1.0)] + [(None, None)] * order
+
+    result = minimize(
+        objective,
+        x0=theta_init,
+        bounds=bounds,
+        method="L-BFGS-B",
+    )
+
+    if not result.success:
+        raise RuntimeError(f"Bounded polynomial fit failed: {result.message}")
+
+    zero_noise_value = result.x[0]
+    return float(np.clip(zero_noise_value, -1.0, 1.0))
+
+
 def bounded_exp_extrapolation(
     x: pd.Series | np.ndarray | list,
     y: pd.Series | np.ndarray | list,
     asymptote: float | None = None,
 ) -> float:
-    """Exponential extrapolation with physical bounds solved via ``minimize``.
+    """Exponential extrapolation with physical bounds.
 
     Model:
         y(x) = a + (z0 - a) * exp(-c * x),   c > 0
@@ -80,70 +144,6 @@ def bounded_exp_extrapolation(
             raise RuntimeError(f"Bounded exponential fit failed: {result.message}")
         zero_noise_value = result.x[1]
 
-    return float(np.clip(zero_noise_value, -1.0, 1.0))
-
-
-def bounded_polynomial_extrapolation(
-    x: pd.Series | np.ndarray | list,
-    y: pd.Series | np.ndarray | list,
-    order: int = 1,
-) -> float:
-    """Polynomial extrapolation with bounded physically valid zero-noise prediction.
-
-    Model:
-        y(x) = theta_0 + theta_1 * x + ... + theta_d * x^d
-
-    The zero-noise limit is y(0) = theta_0 (the intercept). The fit is constrained
-    so that theta_0 lies in [-1, 1], ensuring the extrapolated value is valid for
-    ±1-valued observables.
-
-    :param x: Series containing the scale factors.
-    :param y: Series containing the expectation values.
-    :param order: Order of the polynomial.
-    :return: Zero-noise limit y(0).
-    :raises ValueError: If inputs are invalid or too few points.
-    :raises RuntimeError: If constrained optimization fails.
-    """
-    x = np.asarray(x, dtype=float)
-    y_vals = np.asarray(y, dtype=float)
-
-    if x.size != y_vals.size:
-        raise ValueError("x and y must have the same number of rows.")
-    if x.size < 2:
-        raise ValueError("At least two data points are required.")
-    if not np.all(np.isfinite(x)) or not np.all(np.isfinite(y_vals)):
-        raise ValueError("scale_factor and expectation values must be finite.")
-    if order < 0:
-        raise ValueError("order must be non-negative.")
-    if x.size <= order:
-        raise ValueError(
-            f"Need more than order={order} points for a unique fit, got {x.size}."
-        )
-
-    # Design matrix: columns 1, x, x^2, ..., x^d
-    A = np.column_stack([x**k for k in range(order + 1)])
-
-    def objective(theta: np.ndarray) -> float:
-        pred = A @ theta
-        return float(np.sum((y_vals - pred) ** 2))
-
-    # Initial guess from unconstrained OLS
-    theta_init, _, _, _ = np.linalg.lstsq(A, y_vals, rcond=None)
-
-    # Bounds: intercept theta_0 in [-1, 1], higher coefficients unbounded
-    bounds = [(-1.0, 1.0)] + [(None, None)] * order
-
-    result = minimize(
-        objective,
-        x0=theta_init,
-        bounds=bounds,
-        method="L-BFGS-B",
-    )
-
-    if not result.success:
-        raise RuntimeError(f"Bounded polynomial fit failed: {result.message}")
-
-    zero_noise_value = result.x[0]
     return float(np.clip(zero_noise_value, -1.0, 1.0))
 
 
