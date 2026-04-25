@@ -7,7 +7,7 @@ name = "zne-replication-package"
 version = "0.1.0"
 description = "Replication package for bounded zero-noise extrapolation experiments."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.13"
 dependencies = [
     "pandas",
     "pyarrow",
