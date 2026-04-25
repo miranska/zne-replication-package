@@ -2,11 +2,11 @@
 
 
 
-| Name                            |    Stmts |     Miss |   Branch |   BrPart |   Cover |   Missing |
-|-------------------------------- | -------: | -------: | -------: | -------: | ------: | --------: |
-| src/bounded\_methods.py         |      110 |        1 |       48 |        1 |     99% |       196 |
-| tests/test\_bounded\_methods.py |       84 |        0 |        0 |        0 |    100% |           |
-| **TOTAL**                       |  **194** |    **1** |   **48** |    **1** | **99%** |           |
+| Name                            |    Stmts |     Miss |   Branch |   BrPart |    Cover |   Missing |
+|-------------------------------- | -------: | -------: | -------: | -------: | -------: | --------: |
+| src/bounded\_methods.py         |      110 |        0 |       48 |        0 |     100% |           |
+| tests/test\_bounded\_methods.py |       89 |        0 |        0 |        0 |     100% |           |
+| **TOTAL**                       |  **199** |    **0** |   **48** |    **0** | **100%** |           |
 
 
 ## Setup coverage badge
