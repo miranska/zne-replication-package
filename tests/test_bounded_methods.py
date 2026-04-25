@@ -182,6 +182,15 @@ def test_bounded_polyexp_returns_bounded_output_for_extreme_data():
     assert -1.0 <= result <= 1.0
 
 
+def test_bounded_polyexp_order_zero_hits_empty_coefficients_branch():
+    x = np.array([0.0, 1.0, 2.0, 3.0])
+    y = np.array([0.42, 0.42, 0.42, 0.42])
+
+    result = bounded_polyexp_extrapolation(x, y, order=0, asymptote=0.0)
+
+    assert result == pytest.approx(0.42, abs=1e-6)
+
+
 def test_bounded_polyexp_raises_runtime_error_when_optimizer_fails(monkeypatch):
     monkeypatch.setattr("bounded_methods.minimize", _failing_minimize)
 
