@@ -25,3 +25,6 @@ test = [
 addopts = "--cov-report term-missing --cov-branch --cov-report xml --cov-report term --cov=. -vv --strict-markers -rfE"
 pythonpath = ["src"]
 testpaths = ["tests"]
+
+[tool.coverage.run]
+relative_files = true
