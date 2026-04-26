@@ -1,7 +1,7 @@
 # Improving Zero-Noise Extrapolation via Physically Bounded Models
 ![CI status badge](https://github.com/miranska/zne-replication-package/actions/workflows/pytest.yml/badge.svg?branch=main)
 [![Coverage badge](https://github.com/miranska/zne-replication-package/raw/python-coverage-comment-action-data/badge.svg)](https://github.com/miranska/zne-replication-package/tree/python-coverage-comment-action-data)
-![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)
+![Python 3.11-3.12](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)
 
 This repository contains supplementary material for the paper 
 "Improving Zero-Noise Extrapolation via Physically Bounded Models".
