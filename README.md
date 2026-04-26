@@ -9,7 +9,8 @@ This repository contains supplementary material for the paper
 ## Installation
 
 This project uses `pyproject.toml` for dependency management.
-Use Python `3.11` or `3.12`.
+The experiments reported in the paper were conducted using Python `3.12`.
+The codebase in this repository is compatible with Python `3.11` and `3.12`.
 
 With `venv` and `pip`:
 
