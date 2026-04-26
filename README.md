@@ -86,3 +86,6 @@ pytest
 
 ## Citation
 If you use or study the code, please cite it as follows.
+
+## License
+This project is licensed under the Apache License 2.0 -- see the [LICENSE](LICENSE) file for details.
