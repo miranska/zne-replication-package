@@ -9,14 +9,37 @@ This repository contains supplementary material for the paper
 ## Installation
 
 This project uses `pyproject.toml` for dependency management.
+Use Python `3.11` or `3.12`.
 
-1. Install the package and runtime dependencies:
+With `venv` and `pip`:
+
+1. Create and activate a virtual environment:
+   ```shell
+   python -m venv .venv
+   source .venv/bin/activate
+   ```
+2. Install the package and runtime dependencies:
    ```shell
    pip install -e .
    ```
-2. (Optional) Install test dependencies:
+3. (Optional) Install test dependencies:
    ```shell
    pip install -e ".[test]"
+   ```
+
+With `uv`:
+
+1. Sync the runtime environment:
+   ```shell
+   uv sync
+   ```
+2. (Optional) Sync test dependencies:
+   ```shell
+   uv sync --extra test
+   ```
+3. Activate the environment if needed:
+   ```shell
+   source .venv/bin/activate
    ```
 
 ## Repository Structure
