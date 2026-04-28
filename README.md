@@ -4,7 +4,7 @@
 ![Python 3.11-3.12](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)
 
 This repository contains supplementary material for the paper 
-"Improving Zero-Noise Extrapolation via Physically Bounded Models".
+"[Improving Zero-Noise Extrapolation via Physically Bounded Models](https://arxiv.org/abs/2604.24475)".
 
 ## Installation
 
@@ -86,6 +86,16 @@ pytest
 
 ## Citation
 If you use or study the code, please cite it as follows.
+```bibtex
+@article{miranskyy2026improving,
+      title={Improving Zero-Noise Extrapolation via Physically Bounded Models}, 
+      author={Andriy Miranskyy and Adam Sorrenti and Jasmine Thind and Claude Gravel},
+      year={2026},
+      journal={arXiv preprint arXiv:2604.24475},
+      url={https://arxiv.org/abs/2604.24475}, 
+      doi={10.48550/arXiv.2604.24475}
+}
+```
 
 ## License
 This project is licensed under the Apache License 2.0 -- see the [LICENSE](LICENSE) file for details.
